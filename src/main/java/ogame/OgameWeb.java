@@ -11,33 +11,37 @@ public class OgameWeb {
 
     public static WebDriver webDriver = null;
     private String path = "src/main/resources/chromedriver.exe";
+    private static String WEB_ADRESS = null;
     public static boolean closed = false;
 
     public OgameWeb(String loginPage) {
-        //Chrome
-        System.setProperty("webdriver.chrome.driver", path);
-        webDriver = new ChromeDriver();
-        AppLog.print(OgameWeb.class.getName(),0,"Runs Google Chrome.");
-        webDriver.get(loginPage);
-        AppLog.print(OgameWeb.class.getName(),0,"Web page runs. ["+loginPage+"]");
-        // Maksymalizacja okna przeglądarki
-        webDriver.manage().window().maximize();
-        closed = false;
+        WEB_ADRESS = loginPage;
     }
     /**
      * Close Google Chrome.
      */
-    public static void close() {
-            AppLog.print(OgameWeb.class.getName(),0,"Google Chrome closed.");
-            webDriver.quit();
-            closed = true;
+    public void close() {
+        AppLog.print(OgameWeb.class.getName(),0,"Google Chrome closed.");
+        webDriver.quit();
+        closed = true;
+    }
+
+    public void open(){
+        //Chrome
+        System.setProperty("webdriver.chrome.driver", path);
+        webDriver = new ChromeDriver();
+        AppLog.print(OgameWeb.class.getName(),0,"Runs Google Chrome.");
+        webDriver.get(WEB_ADRESS);
+        AppLog.print(OgameWeb.class.getName(),0,"Web page runs. ["+WEB_ADRESS+"]");
+        // Maksymalizacja okna przeglądarki
+        webDriver.manage().window().maximize();
+        closed = false;
     }
 
     /**
      * Moves page to element.
      */
-    public static void scrollToElement(WebElement e)
-    {
+    public static void scrollToElement(WebElement e) {
         JavascriptExecutor js = (JavascriptExecutor) webDriver;
         js.executeScript("arguments[0].scrollIntoView();", e);
     }
